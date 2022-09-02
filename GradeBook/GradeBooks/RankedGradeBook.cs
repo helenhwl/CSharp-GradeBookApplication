@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GradeBook.GradeBooks
 {
-   public class RankedGradeBook:BaseGradeBook
+    public class RankedGradeBook : BaseGradeBook
     {
         public GradeBookType Type { get; set; }
         public RankedGradeBook(string name) : base(name)
@@ -19,36 +19,24 @@ namespace GradeBook.GradeBooks
             IEnumerable<double> squares = Enumerable.Range(1, 100).Select(x => (double)x);
 
             if (Students.Count < 5)
-               {
-                throw new InvalidOperationException();
-               }
-            else
             {
-                if (averageGrade >= Percentile(squares, 80))
-                    return 'A';
-                else if (averageGrade >= Percentile(squares, 60))
-                    return 'B';
-                else if (averageGrade >= Percentile(squares, 40))
-                    return 'C';
-                else if (averageGrade >= Percentile(squares, 20))
-                    return 'D';
-                else
-                    return 'F';
+                throw new InvalidOperationException();
             }
-        }
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
 
-        public static double Percentile(IEnumerable<double> seq, double percentile)
-        {
-            var elements = seq.ToArray();
-            Array.Sort(elements);
-            double realIndex = percentile * (elements.Length - 1);
-            int index = (int)realIndex;
-            double frac = realIndex - index;
-            if (index + 1 < elements.Length)
-                return elements[index] * (1 - frac) + elements[index + 1] * frac;
+            if (grades[threshold - 1] <= averageGrade)
+                    return 'A';
+            else if (grades[(threshold * 2) - 1] <= averageGrade)
+                    return 'B';
+            else if (grades[(threshold * 3) - 1] <= averageGrade)
+                    return 'C';
+            else if (grades[(threshold * 4) - 1] <= averageGrade)
+                    return 'D';
             else
-                return elements[index];
-        }
+                return 'F';
 
+        }
     }
+
 }
