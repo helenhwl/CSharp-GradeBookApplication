@@ -42,14 +42,6 @@ namespace GradeBook.UserInterfaces
             var name = parts[1];
             var type = parts[2].ToLower();
             BaseGradeBook gradeBook;
-            //= new BaseGradeBook(name);
-            //Console.WriteLine("Created gradebook {0}.", name);
-            //GradeBookUserInterface.CommandLoop(gradeBook);
-
-            //var name2 = parts[3];
-            //BaseGradeBook gradeBook2 = new BaseGradeBook(name2);
-            //Console.WriteLine("Ranked gradebook {0}.", name2);
-            //GradeBookUserInterface.CommandLoop(gradeBook);
             if (type == "standard") gradeBook = new StandardGradeBook(name);
             else if (type == "ranked") gradeBook = new RankedGradeBook(name);
             else
